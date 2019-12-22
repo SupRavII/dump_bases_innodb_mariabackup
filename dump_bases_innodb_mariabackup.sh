@@ -59,7 +59,9 @@ echo "== Preparation Des Donnees MariaDB mariabackup pour restauration ulterieur
    --target-dir=/$Destination/$Date/
 
 # Rapport sur la commande restauration a utiliser pour restaurer le serveur MariaDB complet.
+rm -f $Destination/$Date/CMD_TO_RESTORE.txt
 touch $Destination/$Date/CMD_TO_RESTORE.txt
+echo "== Commande de restauration de ce Snapshot MariaDB ==" >> $Destination/$Date/CMD_TO_RESTORE.txta
 echo "/etc/init.d/cron stop" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "cd $Destination" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "unzip $Date.zip" >> $Destination/$Date/CMD_TO_RESTORE.txt
@@ -85,8 +87,8 @@ if [ $var -eq 0 ]; then
         else
         echo $Date $var Fichiers dans le snapshot MariaDB Rep MariaDB  sur `hostname` OK >> $Destination/Rapports_Mariabackup.txt
         ls -lha $Destination/$Date/ >> $Destination/Rapports_Mariabackup.txt
+        echo $Date $var Fichiers dans le snapshot MariaDB Rep mysql sur `hostname` OK >>$Destination/Rapports_Mariabackup.txt
         cat $Destination/Rapports_Mariabackup.txt | mail -s "Backup mariadb-backup sur `hostname` - OK" -a "from: "$FromMAIL"" $Destinataire
-        echo $Date $var Fichiers dans le snapshot MariaDB Rep mysql  sur `hostname` OK >>$Destination/Rapports_Mariabackup.txt
 fi
 
 
