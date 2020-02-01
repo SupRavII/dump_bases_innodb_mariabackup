@@ -61,13 +61,12 @@ echo "== Preparation Des Donnees MariaDB mariabackup pour restauration ulterieur
 # Rapport sur la commande restauration a utiliser pour restaurer le serveur MariaDB complet.
 rm -f $Destination/$Date/CMD_TO_RESTORE.txt
 touch $Destination/$Date/CMD_TO_RESTORE.txt
-echo "== Commande de restauration de ce Snapshot MariaDB ==" >> $Destination/$Date/CMD_TO_RESTORE.txta
+echo "== Commande de restauration de ce Snapshot MariaDB ==" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "/etc/init.d/cron stop" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "cd $Destination" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "unzip $Date.zip" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "/etc/init.d/mysql stop" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "rm -rf /home/mysql-data.old ; mv /home/mysql-data /home/mysql-data.old ; mkdir -p /home/mysql-data ; chown -R mysql:mysql /home/mysql-data" >> $Destination/$Date/CMD_TO_RESTORE.txt
-echo "mv /home/mysql-data /home/mysql-data.old ; mkdir -p /home/mysql-data ; chown -R mysql:mysql /home/mysql-data" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "/usr/bin/mariabackup --prepare --target-dir=/$Destination/$Date/" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "/usr/bin/mariabackup --copy-back --target-dir=/$Destination/$Date/" >> $Destination/$Date/CMD_TO_RESTORE.txt
 echo "chown -R mysql:mysql /home/mysql-data" >> $Destination/$Date/CMD_TO_RESTORE.txt
@@ -85,7 +84,7 @@ var=$(ls -a $Destination/$Date/mysql/| sed -e "/\.$/d" | wc -l)
 if [ $var -eq 0 ]; then
         echo $Date $var fichiers en backup MariaDB Mariabackup - KO | mail -s "Snapshot mariadb-backup sur `hostname` KO" -a "from: "$FromMAIL"" $Destinataire
         else
-        echo $Date $var Fichiers dans le snapshot MariaDB Rep MariaDB  sur `hostname` OK >> $Destination/Rapports_Mariabackup.txt
+        echo $Date $var Fichiers dans le snapshot MariaDB Rep MySQL  sur `hostname` OK >> $Destination/Rapports_Mariabackup.txt
         ls -lha $Destination/$Date/ >> $Destination/Rapports_Mariabackup.txt
         echo $Date $var Fichiers dans le snapshot MariaDB Rep mysql sur `hostname` OK >>$Destination/Rapports_Mariabackup.txt
         cat $Destination/Rapports_Mariabackup.txt | mail -s "Backup mariadb-backup sur `hostname` - OK" -a "from: "$FromMAIL"" $Destinataire
