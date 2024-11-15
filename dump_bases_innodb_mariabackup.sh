@@ -12,9 +12,17 @@ NOW=$(date "+%d-%m-%Y")
 Destination=/home/backupMariaDB
 # Nombre d'historiques
 Nb=8
-# user MariaDB root ou debian-sys-maint ou un utilisateur avec tous les privileges
-User=USERMYSQL
-Pass=PASSMYSQL
+# user MySQL root ou debian-sys-maint ou un utilisateur avec les bons privileges EX: xtrabackup
+# https://mariadb.com/kb/en/mariabackup-overview/#authentication-and-privileges
+#----------------------------------------------------------------------------------------------
+# Preparation user MariaDB/MySQL
+#----------------------------------------------------------------------------------------------
+# CREATE USER 'xtrabackup'@'localhost' IDENTIFIED BY 'GROSMOTDEPASSEGROS';
+# GRANT RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'xtrabackup'@'localhost';
+# FLUSH PRIVILEGES;
+#----------------------------------------------------------------------------------------------
+User=xtrabackup
+Pass=GROSMOTDEPASSEGROS
 # Destinataire des rapports
 Destinataire=DESTBACKUP@domain.tld
 FromMAIL=root@localhost
